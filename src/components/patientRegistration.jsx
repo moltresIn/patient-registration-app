@@ -51,7 +51,7 @@ function PatientRegistration() {
   };
 
   return (
-    <div className="w-1/2 m-10">
+    <div className="w-full">
       <h2 className="text-xl font-semibold text-gray-800 mb-6">
         Register New Patient
       </h2>

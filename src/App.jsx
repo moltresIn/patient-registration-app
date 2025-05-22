@@ -2,6 +2,8 @@ import React from "react";
 import { PGliteWorker } from "@electric-sql/pglite/worker";
 import { live } from "@electric-sql/pglite/live";
 import PatientRegistration from "./components/PatientRegistration";
+import PatientList from "./components/PatientList";
+import SqlQuery from "./components/SqlQuery";
 
 function App() {
   React.useEffect(() => {
@@ -26,9 +28,24 @@ function App() {
   }, []);
 
   return (
-    <>
-      <PatientRegistration />
-    </>
+    <div className="min-h-screen bg-gray-100 p-6">
+      <div className="container mx-auto flex flex-col lg:flex-row gap-6">
+        {/* Left Column */}
+        <div className="lg:w-1/2 bg-white p-6 shadow-md rounded-lg">
+          <PatientRegistration />
+        </div>
+
+        {/* Right Column */}
+        <div className="lg:w-1/2 flex flex-col gap-6">
+          <div className="bg-white p-6 shadow-md rounded-lg">
+            <PatientList />
+          </div>
+          <div className="bg-white p-6 shadow-md rounded-lg">
+            <SqlQuery />
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
