@@ -1,6 +1,7 @@
 import React from "react";
 import { PGliteWorker } from "@electric-sql/pglite/worker";
 import { live } from "@electric-sql/pglite/live";
+import PatientRegistration from "./components/PatientRegistration";
 
 function App() {
   React.useEffect(() => {
@@ -24,7 +25,11 @@ function App() {
     initPg();
   }, []);
 
-  return null;
+  return (
+    <>
+      <PatientRegistration />
+    </>
+  );
 }
 
 export default App;
