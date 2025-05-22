@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { usePGlite } from "@electric-sql/pglite-react";
 
 function PatientRegistration() {
+  const db = usePGlite();
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -17,6 +19,7 @@ function PatientRegistration() {
     pre_existing_conditions: "",
     emergency_contact_name: "",
     emergency_contact_phone: "",
+    registered_by: "medblocks",
   });
 
   const handleChange = (e) => {
@@ -27,6 +30,45 @@ function PatientRegistration() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      await db.query(
+        `INSERT INTO patients (
+          first_name, last_name, date_of_birth, gender, phone, email,
+          street_address, city, state, postal_code, medical_record_number,
+          allergies, pre_existing_conditions, emergency_contact_name,
+          emergency_contact_phone, registered_by
+        ) VALUES (
+          $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16
+        )`,
+        [
+          formData.first_name,
+          formData.last_name,
+          formData.date_of_birth,
+          formData.gender,
+          formData.phone,
+          formData.email,
+          formData.street_address,
+          formData.city,
+          formData.state,
+          formData.postal_code,
+          formData.medical_record_number,
+          formData.allergies,
+          formData.pre_existing_conditions,
+          formData.emergency_contact_name,
+          formData.emergency_contact_phone,
+          formData.registered_by,
+        ]
+      );
+
+      const notification = document.createElement("div");
+      notification.className =
+        "fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg";
+      notification.textContent = "Patient registered successfully";
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.remove();
+      }, 3000);
+
       setFormData({
         first_name: "",
         last_name: "",
@@ -51,7 +93,7 @@ function PatientRegistration() {
   };
 
   return (
-    <div className="w-full">
+    <div>
       <h2 className="text-xl font-semibold text-gray-800 mb-6">
         Register New Patient
       </h2>

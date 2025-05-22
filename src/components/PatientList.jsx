@@ -1,69 +1,63 @@
+import React, { useState, useEffect } from "react";
+import { usePGlite } from "@electric-sql/pglite-react";
+
 function PatientList() {
-  const rows = [
-    {
-      id: 1,
-      medical_record_number: "MRN001",
-      first_name: "John",
-      last_name: "Doe",
-      date_of_birth: "1990-01-15",
-      gender: "Male",
-      phone: "123-456-7890",
-      email: "john.doe@example.com",
-      street_address: "123 Elm Street",
-      city: "New York",
-      state: "NY",
-      postal_code: "10001",
-      registration_date: "2025-05-01",
-    },
-    {
-      id: 2,
-      medical_record_number: "MRN002",
-      first_name: "Jane",
-      last_name: "Smith",
-      date_of_birth: "1985-06-22",
-      gender: "Female",
-      phone: "987-654-3210",
-      email: "jane.smith@example.com",
-      street_address: "456 Oak Avenue",
-      city: "Los Angeles",
-      state: "CA",
-      postal_code: "90001",
-      registration_date: "2025-05-10",
-    },
-    {
-      id: 3,
-      medical_record_number: "MRN003",
-      first_name: "Alice",
-      last_name: "Johnson",
-      date_of_birth: "1975-09-30",
-      gender: "Female",
-      phone: "555-555-5555",
-      email: "alice.johnson@example.com",
-      street_address: "789 Pine Road",
-      city: "Chicago",
-      state: "IL",
-      postal_code: "60601",
-      registration_date: "2025-05-15",
-    },
-    {
-      id: 4,
-      medical_record_number: "MRN004",
-      first_name: "Bob",
-      last_name: "Brown",
-      date_of_birth: "2000-03-18",
-      gender: "Male",
-      phone: "444-444-4444",
-      email: "bob.brown@example.com",
-      street_address: "321 Cedar Lane",
-      city: "Houston",
-      state: "TX",
-      postal_code: "77001",
-      registration_date: "2025-05-20",
-    },
-  ];
+  const db = usePGlite();
+  const [rows, setRows] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const result = await db.query(
+          "SELECT * FROM patients ORDER BY registration_date DESC"
+        );
+        const formattedRows = result.rows.map((row) => ({
+          ...row,
+          date_of_birth:
+            row.date_of_birth instanceof Date
+              ? row.date_of_birth.toISOString().split("T")[0]
+              : row.date_of_birth || "N/A",
+          registration_date:
+            row.registration_date instanceof Date
+              ? row.registration_date.toLocaleString()
+              : row.registration_date || "N/A",
+        }));
+        setRows(formattedRows);
+        setError(null);
+      } catch (err) {
+        setError(err);
+        setRows(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPatients();
+    const interval = setInterval(fetchPatients, 5000);
+    return () => clearInterval(interval);
+  }, [db]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="bg-red-50 text-red-700 p-4 rounded-lg">
+        Error fetching patients: {error.message}
+      </div>
+    );
+  }
+
   if (!rows || rows.length === 0) {
     return (
-      <div className="text-center">
+      <div className="text-center py-12 bg-gray-50 rounded-lg">
         <h3 className="text-lg font-medium text-gray-900">No patients yet</h3>
         <p className="mt-2 text-sm text-gray-500">
           Register a new patient to see them listed here.
@@ -130,4 +124,5 @@ function PatientList() {
     </div>
   );
 }
+
 export default PatientList;

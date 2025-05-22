@@ -4,15 +4,17 @@ import { live } from "@electric-sql/pglite/live";
 
 worker({
   async init(options) {
+    console.log("Worker initializing with options:", options);
     const db = new PGlite({
       dataDir: options.dataDir,
-      extensions: { live },
+      extensions: {
+        live,
+      },
     });
-
+    console.log("PGlite instance created, live extension:", !!db.live);
     try {
       await db.waitReady;
-
-      const createTableQuery = `
+      await db.exec(`
         DROP TABLE IF EXISTS patients;
         CREATE TABLE patients (
           id SERIAL PRIMARY KEY,
@@ -34,14 +36,20 @@ worker({
           registration_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           registered_by TEXT NOT NULL
         );
-      `;
-
-      await db.exec(createTableQuery);
-    } catch (error) {
-      console.error("Database initialization failed:", error);
-      throw error;
+      `);
+      console.log("Patients table created successfully");
+      await db.live
+        .query("SELECT 1")
+        .then((result) => {
+          console.log("Live query test result:", result);
+        })
+        .catch((err) => {
+          console.error("Live query test failed:", err);
+        });
+    } catch (err) {
+      console.error("Error initializing database:", err);
+      throw err;
     }
-
     return db;
   },
 });
