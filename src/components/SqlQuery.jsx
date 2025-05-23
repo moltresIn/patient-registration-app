@@ -6,8 +6,7 @@ function SqlQuery() {
   const [sql, setSql] = useState("");
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState("json"); // "json" or "table"
-
+  const [viewMode, setViewMode] = useState("json");
   const handleExecute = async () => {
     try {
       const res = await db.query(sql);
@@ -104,7 +103,7 @@ function SqlQuery() {
                   onClick={() => setViewMode("json")}
                   className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
                     viewMode === "json"
-                      ? "bg-primary-600 text-white"
+                      ? "bg-blue-600 text-white"
                       : "bg-white text-gray-700 hover:bg-gray-50"
                   }`}
                 >
@@ -114,7 +113,7 @@ function SqlQuery() {
                   onClick={() => setViewMode("table")}
                   className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
                     viewMode === "table"
-                      ? "bg-primary-600 text-white"
+                      ? "bg-blue-600 text-white"
                       : "bg-white text-gray-700 hover:bg-gray-50"
                   }`}
                 >

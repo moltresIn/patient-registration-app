@@ -9,6 +9,7 @@ import SqlQuery from "./components/SqlQuery";
 function App() {
   const [pg, setPg] = useState(null);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState("registration");
 
   useEffect(() => {
     const initPg = async () => {
@@ -52,23 +53,54 @@ function App() {
   return (
     <PGliteProvider db={pg}>
       <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-        <div className=" mx-auto">
+        <div className="mx-auto">
           <h1 className="text-3xl font-bold text-gray-900 text-center mb-8">
-            Healthcare Patient Management
+            Medblocks Patient Management
           </h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <PatientRegistration />
-            </div>
-            <div className="bg-white rounded-xl shadow-sm p-6">
-              <PatientList />
-            </div>
+          {/* Tab navigation */}
+          <div className="flex justify-center mb-6 items-center">
+            <button
+              className={`px-4 py-2 mr-2 text-sm font-medium border cursor-pointer rounded-xl ${
+                activeTab === "registration"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-600"
+              }`}
+              onClick={() => setActiveTab("registration")}
+            >
+              Registration
+            </button>
+            <button
+              className={`px-4 py-2 text-sm border rounded-xl font-medium cursor-pointer ${
+                activeTab === "sql"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-600"
+              }`}
+              onClick={() => setActiveTab("sql")}
+            >
+              SQL Query
+            </button>
           </div>
 
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <SqlQuery />
-          </div>
+          {/* Tab content */}
+          {activeTab === "registration" && (
+            <div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                  <PatientRegistration />
+                </div>
+                <div className="bg-white rounded-xl shadow-sm p-6">
+                  <PatientList />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "sql" && (
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <SqlQuery />
+            </div>
+          )}
         </div>
       </div>
     </PGliteProvider>
