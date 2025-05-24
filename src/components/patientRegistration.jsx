@@ -10,6 +10,7 @@ import {
   DocumentCheckIcon,
   ChevronRightIcon,
   ChevronLeftIcon,
+  UserPlusIcon,
 } from "@heroicons/react/24/outline";
 
 import ProgressSteps from "./ProgressSteps";
@@ -286,7 +287,14 @@ function PatientRegistration() {
 
   return (
     <div>
-      <h2 className="section-title">Register New Patient</h2>
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-xl">
+          <UserPlusIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-600">
+            Register New Patient
+          </h2>
+        </div>
+      </div>
 
       <ProgressSteps
         steps={steps}
@@ -295,7 +303,6 @@ function PatientRegistration() {
         onStepClick={handleStepClick}
       />
 
-      {/* Remove form wrapper to prevent auto-submission */}
       <div className="space-y-6">
         <div className="form-section">{renderStepContent()}</div>
 

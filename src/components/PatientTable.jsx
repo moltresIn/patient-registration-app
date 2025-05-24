@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { usePGlite } from "@electric-sql/pglite-react";
-import { MagnifyingGlassIcon, FunnelIcon } from "@heroicons/react/24/outline";
+import { TableCellsIcon } from "@heroicons/react/24/outline";
 
 function PatientTable() {
   const db = usePGlite();
@@ -119,6 +119,12 @@ function PatientTable() {
 
   return (
     <div className="space-y-6">
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-xl">
+          <TableCellsIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-600">Patient Table</h2>
+        </div>
+      </div>
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
         <div className="relative flex-1">
           <input

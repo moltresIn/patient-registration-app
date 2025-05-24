@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { usePGlite } from "@electric-sql/pglite-react";
+import { CodeBracketIcon } from "@heroicons/react/24/outline";
 
 function SqlQuery() {
   const db = usePGlite();
@@ -69,9 +70,14 @@ function SqlQuery() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">
-        Database Query Console
-      </h2>
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-xl">
+          <CodeBracketIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-600">
+            Database Query Console
+          </h2>
+        </div>
+      </div>
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">

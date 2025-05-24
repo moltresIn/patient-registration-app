@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { usePGlite } from "@electric-sql/pglite-react";
-
+import { CircleStackIcon } from "@heroicons/react/24/outline";
 function PatientList() {
   const db = usePGlite();
   const [rows, setRows] = useState(null);
@@ -68,9 +68,13 @@ function PatientList() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">
-        Patient Records
-      </h2>
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-xl">
+          <CircleStackIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-600">Patient List</h2>
+        </div>
+      </div>
+
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">

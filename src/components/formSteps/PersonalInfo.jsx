@@ -1,6 +1,3 @@
-import React from "react";
-import { UserIcon } from "@heroicons/react/24/outline";
-
 function PersonalInfo({ formData, handleChange, errors }) {
   return (
     <div className="space-y-4">
