@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Tooltip } from "react-tooltip";
 import PatientTable from "./components/PatientTable";
+import Medblock_Logo from "../public/medblocks_logo.svg";
 
 function App() {
   const [pg, setPg] = useState(null);
@@ -61,8 +62,13 @@ function App() {
     <PGliteProvider db={pg}>
       <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-gray-50">
         <div className=" mx-auto">
-          <div className="flex items-center justify-center mb-8">
-            <h1 className="text-3xl font-bold text-blue-600 ">
+          <div className="flex p-4 items-center justify-center mb-8 bg-white max-w-screen-md mx-auto rounded-full shadow-sm">
+            <img
+              src={Medblock_Logo}
+              alt="Medblocks Logo"
+              className="h-12 w-12 mr-4"
+            />
+            <h1 className="text-3xl font-bold text-blue-600">
               Medblocks Patient Management
             </h1>
           </div>
