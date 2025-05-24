@@ -69,55 +69,58 @@ function PatientList() {
   return (
     <div>
       <div className="flex justify-center mb-7">
-        <div className="flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-xl">
+        <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-xl">
           <CircleStackIcon className="w-6 h-6 text-blue-600" />
-          <h2 className="text-xl font-semibold text-blue-600">Patient List</h2>
+          <h2 className="text-xl font-semibold text-blue-700">Patient List</h2>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <div className="overflow-x-auto rounded-xl">
+        <table className="min-w-full">
+          <thead className="bg-slate-900 ">
+            <tr className="hover:cursor-pointer ">
+              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
                 MRN
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
                 Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
                 DOB
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
                 Contact
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
                 Registration Date
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody>
             {rows.map((patient) => (
-              <tr key={patient.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              <tr
+                key={patient.id}
+                className="hover:bg-gray-800 bg-slate-900 hover:cursor-pointer"
+              >
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 ">
                   {patient.medical_record_number}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
+                <td className="px-6 py-4 whitespace-nowrap ">
+                  <div className="text-sm font-medium text-gray-100">
                     {patient.first_name} {patient.last_name}
                   </div>
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-300 ">
                     {patient.city}, {patient.state}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100 ">
                   {patient.date_of_birth}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{patient.phone}</div>
-                  <div className="text-sm text-gray-500">{patient.email}</div>
+                <td className="px-6 py-4 whitespace-nowrap ">
+                  <div className="text-sm text-gray-200 ">{patient.phone}</div>
+                  <div className="text-sm text-gray-300 ">{patient.email}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100 ">
                   {patient.registration_date}
                 </td>
               </tr>

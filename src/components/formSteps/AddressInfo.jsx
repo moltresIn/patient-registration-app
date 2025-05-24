@@ -1,11 +1,8 @@
-import React from "react";
-import { HomeIcon } from "@heroicons/react/24/outline";
-
 function AddressInfo({ formData, handleChange, errors }) {
   return (
     <div className="space-y-4">
       <div>
-        <label className="block text-sm font-medium text-gray-700  mb-1">
+        <label className="block text-sm font-medium text-white  mb-1">
           Street Address
         </label>
         <input
@@ -24,7 +21,7 @@ function AddressInfo({ formData, handleChange, errors }) {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             City
           </label>
           <input
@@ -40,7 +37,7 @@ function AddressInfo({ formData, handleChange, errors }) {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             State
           </label>
           <input
@@ -56,7 +53,7 @@ function AddressInfo({ formData, handleChange, errors }) {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Postal Code
           </label>
           <input

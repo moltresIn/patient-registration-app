@@ -64,11 +64,12 @@ function ReviewInfo({ formData, onEdit }) {
   return (
     <div className="space-y-6">
       {sections.map((section) => (
-        <div key={section.title} className="bg-gray-50 rounded-lg p-4">
+        <div
+          key={section.title}
+          className="bg-black rounded-xl p-4 border border-white"
+        >
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-medium text-gray-900">
-              {section.title}
-            </h3>
+            <h3 className="text-lg font-medium text-white">{section.title}</h3>
             <button
               type="button"
               onClick={(e) => handleEditClick(e, section.step)}
@@ -81,10 +82,10 @@ function ReviewInfo({ formData, onEdit }) {
           <dl className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {section.fields.map((field) => (
               <div key={field.label}>
-                <dt className="text-sm font-medium text-gray-500">
+                <dt className="text-sm font-medium text-white">
                   {field.label}
                 </dt>
-                <dd className="mt-1 text-sm text-gray-900">
+                <dd className="mt-1 text-sm text-gray-300">
                   {field.value || "N/A"}
                 </dd>
               </div>

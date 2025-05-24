@@ -1,9 +1,11 @@
+import ReactDatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 function PersonalInfo({ formData, handleChange, errors }) {
   return (
     <div className="space-y-4">
       <div className="form-grid">
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             First Name
           </label>
           <input
@@ -21,7 +23,7 @@ function PersonalInfo({ formData, handleChange, errors }) {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Last Name
           </label>
           <input
@@ -41,25 +43,39 @@ function PersonalInfo({ formData, handleChange, errors }) {
       </div>
       <div className="form-grid">
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Date of Birth
           </label>
-          <input
-            type="date"
-            name="date_of_birth"
-            value={formData.date_of_birth}
-            onChange={handleChange}
-            className={`input-field ${
-              errors?.date_of_birth ? "border-red-500" : ""
+
+          <ReactDatePicker
+            selected={
+              formData.date_of_birth ? new Date(formData.date_of_birth) : null
+            }
+            onChange={(date) =>
+              handleChange({
+                target: {
+                  name: "date_of_birth",
+                  value: date ? date.toISOString().split("T")[0] : "",
+                },
+              })
+            }
+            dateFormat="dd-MM-yyyy"
+            placeholderText="Select date of birth"
+            showMonthDropdown
+            showYearDropdown
+            dropdownMode="select"
+            className={`w-96 bg-black text-white px-4 py-2 border border-gray-50 rounded-lg  focus:border-transparent transition-all duration-200 pl-10 ${
+              errors?.date_of_birth ? "border-red-500" : "border-gray-300"
             }`}
-            required
+            calendarClassName="modern-calendar"
           />
+
           {errors?.date_of_birth && (
             <p className="mt-1 text-sm text-red-600">{errors.date_of_birth}</p>
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Gender
           </label>
           <select

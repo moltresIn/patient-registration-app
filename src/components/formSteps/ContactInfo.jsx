@@ -3,7 +3,7 @@ function ContactInfo({ formData, handleChange, errors }) {
     <div className="space-y-4">
       <div className="form-grid">
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Phone Number
           </label>
           <div className="relative">
@@ -23,7 +23,7 @@ function ContactInfo({ formData, handleChange, errors }) {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Email
           </label>
           <div className="relative">

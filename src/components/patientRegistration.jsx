@@ -286,11 +286,11 @@ function PatientRegistration() {
   };
 
   return (
-    <div>
+    <div className="">
       <div className="flex justify-center mb-7">
-        <div className="flex items-center space-x-2 bg-blue-100 px-4 py-2 rounded-xl">
+        <div className="flex items-center space-x-2 bg-white bg-blur px-4 py-2 rounded-xl">
           <UserPlusIcon className="w-6 h-6 text-blue-600" />
-          <h2 className="text-xl font-semibold text-blue-600">
+          <h2 className="text-xl font-semibold text-blue-700">
             Register New Patient
           </h2>
         </div>

@@ -2,7 +2,7 @@
 
 
   .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg  focus:border-transparent transition-all duration-200;
+    @apply w-full bg-black text-white px-4 py-2 border border-gray-50 rounded-lg  focus:border-transparent transition-all duration-200;
   }
   
   .btn-primary {
@@ -14,7 +14,7 @@
   }
 
   .form-section {
-    @apply bg-white p-6 rounded-lg shadow-sm transition-all duration-200 hover:shadow-md;
+    @apply bg-black border border-white p-6 rounded-lg shadow-sm transition-all duration-200 hover:shadow-md;
   }
 
   .form-grid {
@@ -22,8 +22,12 @@
   }
 
   .card {
-    @apply bg-white h-auto rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6;
+    @apply bg-black h-auto rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-6;
   }
 .select-field {
-  @apply w-auto max-w-xs px-2 py-2 border border-gray-300 rounded-xl bg-white appearance-none cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none  hover:border-gray-400;
+  @apply w-auto max-w-xs text-white px-2 py-2 border border-gray-300 rounded-xl bg-black appearance-none cursor-pointer transition-colors duration-200 ease-in-out focus:outline-none  hover:border-gray-400;
+}
+
+.font-inconsolata {
+  font-family: 'Inconsolata', sans-serif;
 }

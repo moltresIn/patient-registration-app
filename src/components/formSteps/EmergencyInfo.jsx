@@ -3,7 +3,7 @@ function EmergencyInfo({ formData, handleChange, errors }) {
     <div className="space-y-4">
       <div className="form-grid">
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Emergency Contact Name
           </label>
           <input
@@ -23,7 +23,7 @@ function EmergencyInfo({ formData, handleChange, errors }) {
           )}
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700  mb-1">
+          <label className="block text-sm font-medium text-white  mb-1">
             Emergency Contact Phone
           </label>
           <div className="relative">

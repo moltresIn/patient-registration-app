@@ -10,7 +10,7 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
           <div
             key={step.id}
             className={`flex flex-col items-center relative z-10 ${
-              currentStep >= step.id ? "text-blue-600" : "text-gray-400"
+              currentStep >= step.id ? "text-blue-700" : "text-gray-500"
             }`}
           >
             <button
@@ -22,8 +22,8 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
               } Information`}
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
                 currentStep >= step.id
-                  ? "bg-blue-100 hover:bg-blue-200 "
-                  : "bg-gray-100 "
+                  ? "bg-white hover:bg-black hover:border"
+                  : "bg-gray-100"
               } ${
                 !isStepComplete(step.id) && step.id > currentStep
                   ? "cursor-not-allowed opacity-50"
@@ -31,16 +31,16 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
               }`}
             >
               {isStepComplete(step.id) ? (
-                <CheckCircleIcon className="w-6 h-6 text-green-500" />
+                <CheckCircleIcon className="w-6 h-6 text-green-700" />
               ) : (
-                <step.icon className="w-5 h-5" />
+                <step.icon className="w-5 h-5 text-gray-700" />
               )}
             </button>
             <div className="text-xs mt-2">{step.title}</div>
           </div>
         ))}
         <div
-          className="absolute top-5 left-0 h-0.5 bg-gray-200  w-full -z-10"
+          className="absolute top-5 left-0 h-0.5 bg-gray-200 w-full -z-10"
           style={{
             background: `linear-gradient(to right, #3B82F6 ${
               ((currentStep - 1) / (steps.length - 1)) * 100

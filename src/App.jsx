@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Tooltip } from "react-tooltip";
 import PatientTable from "./components/PatientTable";
-import Medblock_Logo from "../public/medblocks_logo.svg";
+import Medblock_Logo from "/medblocks_logo.svg";
 
 function App() {
   const [pg, setPg] = useState(null);
@@ -60,9 +60,9 @@ function App() {
 
   return (
     <PGliteProvider db={pg}>
-      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-gray-50">
+      <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 transition-colors duration-300 bg-slate-800">
         <div className=" mx-auto">
-          <div className="flex p-4 items-center justify-center mb-8 bg-white max-w-screen-md mx-auto rounded-full shadow-sm">
+          <div className="flex p-4 items-center justify-center mb-8 bg-black max-w-screen-md mx-auto rounded-full shadow-sm">
             <img
               src={Medblock_Logo}
               alt="Medblocks Logo"
@@ -74,43 +74,43 @@ function App() {
           </div>
 
           <div className="flex justify-center mb-8">
-            <div className="bg-white  rounded-full shadow-sm p-1">
+            <div className="bg-black  rounded-full shadow-sm p-1">
               <div className="flex space-x-2">
                 <button
                   data-tooltip-id="nav-tooltip"
                   data-tooltip-content="Patient Management"
                   className={`p-3 rounded-full transition-all duration-200 hover:cursor-pointer ${
                     activeTab === "registration"
-                      ? "bg-blue-100  text-blue-600 "
-                      : "text-gray-600  hover:bg-gray-100 "
+                      ? "bg-white"
+                      : "text-gray-600  hover:bg-white "
                   }`}
                   onClick={() => setActiveTab("registration")}
                 >
-                  <UserGroupIcon className="w-6 h-6" />
+                  <UserGroupIcon className="w-6 h-6 text-blue-700" />
                 </button>
                 <button
                   data-tooltip-id="nav-tooltip"
                   data-tooltip-content="Patient Table"
                   className={`p-3 rounded-full transition-all duration-200 hover:cursor-pointer ${
                     activeTab === "table"
-                      ? "bg-blue-100  text-blue-600"
-                      : "text-gray-600 hover:bg-gray-100 "
+                      ? "bg-white"
+                      : "text-gray-600 hover:bg-white "
                   }`}
                   onClick={() => setActiveTab("table")}
                 >
-                  <TableCellsIcon className="w-6 h-6" />
+                  <TableCellsIcon className="w-6 h-6 text-blue-700" />
                 </button>
                 <button
                   data-tooltip-id="nav-tooltip"
                   data-tooltip-content="SQL Console"
                   className={`p-3 rounded-full transition-all duration-200 hover:cursor-pointer ${
                     activeTab === "sql"
-                      ? "bg-blue-100  text-blue-600 "
-                      : "text-gray-600 hover:bg-gray-100 "
+                      ? "bg-white"
+                      : "text-gray-600 hover:bg-white "
                   }`}
                   onClick={() => setActiveTab("sql")}
                 >
-                  <CommandLineIcon className="w-6 h-6" />
+                  <CommandLineIcon className="w-6 h-6 text-blue-700" />
                 </button>
               </div>
             </div>
