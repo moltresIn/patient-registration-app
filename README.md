@@ -28,7 +28,7 @@ src/
     │   └── ReviewInfo.jsx
     ├── PatientList.jsx
     ├── PatientTable.jsx
-    ├── patientRegistration.jsx
+    ├── PatientRegistration.jsx
     ├── ProgressSteps.jsx
     └── SqlQuery.jsx
 ```
