@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { usePGlite } from "@electric-sql/pglite-react";
+import { CodeBracketIcon } from "@heroicons/react/24/outline";
 
 function SqlQuery() {
   const db = usePGlite();
@@ -34,23 +35,26 @@ function SqlQuery() {
     const columns = Object.keys(result.rows[0]);
 
     return (
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto rounded-xl">
+        <table className="min-w-full ">
+          <thead className="bg-slate-900">
             <tr>
               {columns.map((column) => (
                 <th
                   key={column}
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-100 uppercase tracking-wider"
                 >
                   {column}
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-slate-900 ">
             {result.rows.map((row, rowIndex) => (
-              <tr key={rowIndex} className="hover:bg-gray-50">
+              <tr
+                key={rowIndex}
+                className="hover:bg-gray-50 hover:cursor-pointer"
+              >
                 {columns.map((column) => (
                   <td
                     key={column}
@@ -69,12 +73,17 @@ function SqlQuery() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">
-        Database Query Console
-      </h2>
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-xl">
+          <CodeBracketIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-800">
+            Database Query Console
+          </h2>
+        </div>
+      </div>
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-100 mb-1">
             SQL Query
           </label>
           <textarea
@@ -97,11 +106,11 @@ function SqlQuery() {
 
           {result?.rows && (
             <div className="flex items-center space-x-4">
-              <label className="text-sm text-gray-600">View as:</label>
+              <label className="text-sm text-gray-100">View as:</label>
               <div className="flex rounded-lg shadow-sm">
                 <button
                   onClick={() => setViewMode("json")}
-                  className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
+                  className={`px-4 py-2 text-sm font-medium rounded-l-xl hover:cursor-pointer ${
                     viewMode === "json"
                       ? "bg-blue-600 text-white"
                       : "bg-white text-gray-700 hover:bg-gray-50"
@@ -111,7 +120,7 @@ function SqlQuery() {
                 </button>
                 <button
                   onClick={() => setViewMode("table")}
-                  className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
+                  className={`px-4 py-2 text-sm font-medium rounded-r-xl hover:cursor-pointer ${
                     viewMode === "table"
                       ? "bg-blue-600 text-white"
                       : "bg-white text-gray-700 hover:bg-gray-50"
@@ -132,11 +141,11 @@ function SqlQuery() {
         )}
 
         {result && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-            <p className="text-sm font-medium text-gray-900 mb-2">Result</p>
+          <div className="mt-4 p-4 bg-slate-900 rounded-lg">
+            <p className="text-sm font-medium text-gray-100 mb-2">Result</p>
             {result.rows && result.rows.length > 0 ? (
               viewMode === "json" ? (
-                <pre className="text-sm text-gray-700 overflow-x-auto">
+                <pre className="text-sm text-gray-300 overflow-x-auto">
                   {JSON.stringify(result, null, 2)}
                 </pre>
               ) : (

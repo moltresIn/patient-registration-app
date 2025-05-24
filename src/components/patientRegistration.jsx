@@ -1,8 +1,30 @@
 import React, { useState } from "react";
 import { usePGlite } from "@electric-sql/pglite-react";
+import toast from "react-hot-toast";
+import {
+  PhoneIcon,
+  HomeIcon,
+  IdentificationIcon,
+  HeartIcon,
+  UserIcon,
+  DocumentCheckIcon,
+  ChevronRightIcon,
+  ChevronLeftIcon,
+  UserPlusIcon,
+} from "@heroicons/react/24/outline";
+
+import ProgressSteps from "./ProgressSteps";
+import PersonalInfo from "./formSteps/PersonalInfo";
+import ContactInfo from "./formSteps/ContactInfo";
+import AddressInfo from "./formSteps/AddressInfo";
+import MedicalInfo from "./formSteps/MedicalInfo";
+import EmergencyInfo from "./formSteps/EmergencyInfo";
+import ReviewInfo from "./formSteps/ReviewInfo";
 
 function PatientRegistration() {
   const db = usePGlite();
+  const [currentStep, setCurrentStep] = useState(1);
+  const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -22,13 +44,136 @@ function PatientRegistration() {
     registered_by: "medblocks",
   });
 
+  const steps = [
+    { id: 1, title: "Personal", icon: UserIcon },
+    { id: 2, title: "Contact", icon: PhoneIcon },
+    { id: 3, title: "Address", icon: HomeIcon },
+    { id: 4, title: "Medical", icon: IdentificationIcon },
+    { id: 5, title: "Emergency", icon: HeartIcon },
+    { id: 6, title: "Review", icon: DocumentCheckIcon },
+  ];
+
+  const validatePersonalInfo = () => {
+    const errors = {};
+    if (!formData.first_name.trim())
+      errors.first_name = "First name is required";
+    if (!formData.last_name.trim()) errors.last_name = "Last name is required";
+    if (!formData.date_of_birth)
+      errors.date_of_birth = "Date of birth is required";
+    if (!formData.gender) errors.gender = "Gender is required";
+    return errors;
+  };
+
+  const validateContactInfo = () => {
+    const errors = {};
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.phone) {
+      errors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(formData.phone)) {
+      errors.phone = "Invalid phone number format";
+    }
+
+    if (formData.email && !emailRegex.test(formData.email)) {
+      errors.email = "Invalid email format";
+    }
+    return errors;
+  };
+
+  const validateAddressInfo = () => {
+    const errors = {};
+    if (!formData.street_address.trim())
+      errors.street_address = "Street address is required";
+    if (!formData.city.trim()) errors.city = "City is required";
+    if (!formData.state.trim()) errors.state = "State is required";
+    if (!formData.postal_code.trim())
+      errors.postal_code = "Postal code is required";
+    return errors;
+  };
+
+  const validateMedicalInfo = () => {
+    const errors = {};
+    if (!formData.medical_record_number.trim()) {
+      errors.medical_record_number = "Medical record number is required";
+    }
+    return errors;
+  };
+
+  const validateEmergencyInfo = () => {
+    const errors = {};
+    const phoneRegex = /^\+?[\d\s-]{10,}$/;
+
+    if (!formData.emergency_contact_name.trim()) {
+      errors.emergency_contact_name = "Emergency contact name is required";
+    }
+    if (!formData.emergency_contact_phone) {
+      errors.emergency_contact_phone = "Emergency contact phone is required";
+    } else if (!phoneRegex.test(formData.emergency_contact_phone)) {
+      errors.emergency_contact_phone = "Invalid phone number format";
+    }
+    return errors;
+  };
+
+  const validateStep = (step) => {
+    switch (step) {
+      case 1:
+        return validatePersonalInfo();
+      case 2:
+        return validateContactInfo();
+      case 3:
+        return validateAddressInfo();
+      case 4:
+        return validateMedicalInfo();
+      case 5:
+        return validateEmergencyInfo();
+      default:
+        return {};
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error for the field being changed
+    if (errors[name]) {
+      setErrors((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const isStepComplete = (step) => {
+    if (step === 6) return true; // Review step is always accessible once you reach it
+    const stepErrors = validateStep(step);
+    return Object.keys(stepErrors).length === 0;
+  };
+
+  const handleStepClick = (stepId) => {
+    if (stepId <= currentStep || isStepComplete(currentStep)) {
+      setCurrentStep(stepId);
+    } else {
+      toast.error("Please complete the current step first");
+    }
+  };
+
+  const handleSubmit = async () => {
+    // Validate all steps before submission
+    let allErrors = {};
+    for (let i = 1; i <= 5; i++) {
+      const stepErrors = validateStep(i);
+      allErrors = { ...allErrors, ...stepErrors };
+    }
+
+    if (Object.keys(allErrors).length > 0) {
+      setErrors(allErrors);
+      toast.error("Please fix all errors before submitting");
+      return;
+    }
+
+    const loadingToast = toast.loading("Registering patient...");
     try {
       await db.query(
         `INSERT INTO patients (
@@ -39,35 +184,13 @@ function PatientRegistration() {
         ) VALUES (
           $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16
         )`,
-        [
-          formData.first_name,
-          formData.last_name,
-          formData.date_of_birth,
-          formData.gender,
-          formData.phone,
-          formData.email,
-          formData.street_address,
-          formData.city,
-          formData.state,
-          formData.postal_code,
-          formData.medical_record_number,
-          formData.allergies,
-          formData.pre_existing_conditions,
-          formData.emergency_contact_name,
-          formData.emergency_contact_phone,
-          formData.registered_by,
-        ]
+        Object.values(formData)
       );
 
-      const notification = document.createElement("div");
-      notification.className =
-        "fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg";
-      notification.textContent = "Patient registered successfully";
-      document.body.appendChild(notification);
-
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
+      toast.success("Patient registered successfully!", {
+        id: loadingToast,
+        icon: "👍",
+      });
 
       setFormData({
         first_name: "",
@@ -85,267 +208,131 @@ function PatientRegistration() {
         pre_existing_conditions: "",
         emergency_contact_name: "",
         emergency_contact_phone: "",
+        registered_by: "medblocks",
       });
+      setCurrentStep(1);
+      setErrors({});
     } catch (error) {
       console.error("Error registering patient:", error);
-      alert("Failed to register patient");
+      toast.error("Failed to register patient. Please try again.", {
+        id: loadingToast,
+        icon: "❌",
+      });
+    }
+  };
+
+  const handleNext = () => {
+    const stepErrors = validateStep(currentStep);
+    if (Object.keys(stepErrors).length === 0) {
+      setCurrentStep(currentStep + 1);
+      setErrors({});
+    } else {
+      setErrors(stepErrors);
+      toast.error("Please fix all errors before proceeding");
+    }
+  };
+
+  const handlePrevious = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <PersonalInfo
+            formData={formData}
+            handleChange={handleChange}
+            errors={errors}
+          />
+        );
+      case 2:
+        return (
+          <ContactInfo
+            formData={formData}
+            handleChange={handleChange}
+            errors={errors}
+          />
+        );
+      case 3:
+        return (
+          <AddressInfo
+            formData={formData}
+            handleChange={handleChange}
+            errors={errors}
+          />
+        );
+      case 4:
+        return (
+          <MedicalInfo
+            formData={formData}
+            handleChange={handleChange}
+            errors={errors}
+          />
+        );
+      case 5:
+        return (
+          <EmergencyInfo
+            formData={formData}
+            handleChange={handleChange}
+            errors={errors}
+          />
+        );
+      case 6:
+        return <ReviewInfo formData={formData} onEdit={setCurrentStep} />;
+      default:
+        return null;
     }
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">
-        Register New Patient
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Personal Information
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="last_name"
-                value={formData.last_name}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Date of Birth
-              </label>
-              <input
-                type="date"
-                name="date_of_birth"
-                value={formData.date_of_birth}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Gender
-              </label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="input-field"
-                required
-              >
-                <option value="">Select gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Non-binary">Non-binary</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-          </div>
+    <div className="">
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-white bg-blur px-4 py-2 rounded-xl">
+          <UserPlusIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-700">
+            Register New Patient
+          </h2>
         </div>
+      </div>
 
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Contact Information
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="input-field"
-              />
-            </div>
-          </div>
+      <ProgressSteps
+        steps={steps}
+        currentStep={currentStep}
+        isStepComplete={isStepComplete}
+        onStepClick={handleStepClick}
+      />
+
+      <div className="space-y-6">
+        <div className="form-section">{renderStepContent()}</div>
+
+        <div className="flex justify-between mt-8">
+          <button
+            type="button"
+            onClick={handlePrevious}
+            className={`btn-primary ${
+              currentStep === 1 ? "opacity-50 cursor-not-allowed" : ""
+            }`}
+            disabled={currentStep === 1}
+          >
+            <ChevronLeftIcon className="w-5 h-5" />
+          </button>
+
+          {currentStep < steps.length ? (
+            <button type="button" onClick={handleNext} className="btn-primary">
+              <ChevronRightIcon className="w-5 h-5" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="btn-primary"
+            >
+              Register Patient
+            </button>
+          )}
         </div>
-
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Address Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Street Address
-              </label>
-              <input
-                type="text"
-                name="street_address"
-                value={formData.street_address}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  City
-                </label>
-                <input
-                  type="text"
-                  name="city"
-                  value={formData.city}
-                  onChange={handleChange}
-                  className="input-field"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  State
-                </label>
-                <input
-                  type="text"
-                  name="state"
-                  value={formData.state}
-                  onChange={handleChange}
-                  className="input-field"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Postal Code
-                </label>
-                <input
-                  type="text"
-                  name="postal_code"
-                  value={formData.postal_code}
-                  onChange={handleChange}
-                  className="input-field"
-                  required
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Medical Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Medical Record Number (MRN)
-              </label>
-              <input
-                type="text"
-                name="medical_record_number"
-                value={formData.medical_record_number}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Allergies
-              </label>
-              <textarea
-                name="allergies"
-                value={formData.allergies}
-                onChange={handleChange}
-                className="input-field"
-                rows="2"
-                placeholder="e.g., penicillin, peanuts"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Pre-existing Conditions
-              </label>
-              <textarea
-                name="pre_existing_conditions"
-                value={formData.pre_existing_conditions}
-                onChange={handleChange}
-                className="input-field"
-                rows="2"
-                placeholder="e.g., diabetes, hypertension"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-medium text-gray-900 mb-4">
-            Emergency Contact
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Name
-              </label>
-              <input
-                type="text"
-                name="emergency_contact_name"
-                value={formData.emergency_contact_name}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Phone
-              </label>
-              <input
-                type="tel"
-                name="emergency_contact_phone"
-                value={formData.emergency_contact_phone}
-                onChange={handleChange}
-                className="input-field"
-                required
-              />
-            </div>
-          </div>
-        </div>
-
-        <button type="submit" className="btn-primary w-full">
-          Register Patient
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

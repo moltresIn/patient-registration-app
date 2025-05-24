@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { usePGlite } from "@electric-sql/pglite-react";
-
+import { CircleStackIcon } from "@heroicons/react/24/outline";
 function PatientList() {
   const db = usePGlite();
   const [rows, setRows] = useState(null);
@@ -68,58 +68,67 @@ function PatientList() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold text-gray-800 mb-6">
-        Patient Records
-      </h2>
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                MRN
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                DOB
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Contact
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Registration Date
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {rows.map((patient) => (
-              <tr key={patient.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {patient.medical_record_number}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
-                    {patient.first_name} {patient.last_name}
-                  </div>
-                  <div className="text-sm text-gray-500">
-                    {patient.city}, {patient.state}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {patient.date_of_birth}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{patient.phone}</div>
-                  <div className="text-sm text-gray-500">{patient.email}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {patient.registration_date}
-                </td>
+      <div className="flex justify-center mb-7">
+        <div className="flex items-center space-x-2 bg-white px-4 py-2 rounded-xl">
+          <CircleStackIcon className="w-6 h-6 text-blue-600" />
+          <h2 className="text-xl font-semibold text-blue-700">Patient List</h2>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto rounded-xl">
+        <div className="max-h-[550px] overflow-y-auto">
+          <table className="min-w-full relative">
+            <thead className="bg-slate-900 sticky top-0 z-10">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  MRN
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  DOB
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  Contact
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  Registration Date
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((patient) => (
+                <tr
+                  key={patient.id}
+                  className="hover:bg-gray-800 bg-slate-900 hover:cursor-pointer"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {patient.medical_record_number}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-100">
+                      {patient.first_name} {patient.last_name}
+                    </div>
+                    <div className="text-sm text-gray-300">
+                      {patient.city}, {patient.state}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100">
+                    {patient.date_of_birth}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-200">{patient.phone}</div>
+                    <div className="text-sm text-gray-300">{patient.email}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100">
+                    {patient.registration_date}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
