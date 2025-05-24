@@ -1,12 +1,82 @@
-# React + Vite
+# Patient Registration App (React + PGlite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A frontend-only patient registration application with multi-step form that uses PGlite (PostgreSQL in the browser) for data storage.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🏥 **Multi-step Patient Registration**
+- 📋 **Patient Management**
+- 🔍 **SQL Query Interface**
+- 💾 **Data Persistence**
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+├── App.jsx
+├── main.jsx
+├── index.css
+├── assets/
+├── utils/
+└── components/
+    ├── formSteps/
+    │   ├── PersonalInfo.jsx
+    │   ├── ContactInfo.jsx
+    │   ├── AddressInfo.jsx
+    │   ├── EmergencyInfo.jsx
+    │   ├── MedicalInfo.jsx
+    │   └── ReviewInfo.jsx
+    ├── PatientList.jsx
+    ├── PatientTable.jsx
+    ├── patientRegistration.jsx
+    ├── ProgressSteps.jsx
+    └── SqlQuery.jsx
+```
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+)
+- Yarn or npm
+
+### Installation
+
+```bash
+git clone https://github.com/moltresIn/patient-registration-app.git
+cd patient-registration-app
+yarn install
+yarn dev
+```
+
+## Usage
+
+1. **Register a New Patient**:
+
+   - Complete all form steps
+   - Click "Submit"
+
+2. **View Patients**:
+
+   - Navigate to "Patient List" tab
+   - Browse and filter records
+
+3. **Run SQL Queries**:
+   - Go to "SQL Query" tab
+   - Enter query (e.g. `SELECT * FROM patients WHERE age > 30`)
+   - Click "Execute"
+
+## Development Scripts
+
+| Command        | Description              |
+| -------------- | ------------------------ |
+| `yarn dev`     | Start development server |
+| `yarn build`   | Create production build  |
+| `yarn lint`    | Run ESLint               |
+| `yarn preview` | Preview production build |
+
+## Browser Support
+
+✅ Chrome  
+✅ Firefox  
+✅ Edge
