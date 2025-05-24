@@ -5,6 +5,8 @@ import { live } from "@electric-sql/pglite/live";
 import PatientRegistration from "./components/PatientRegistration";
 import PatientList from "./components/PatientList";
 import SqlQuery from "./components/SqlQuery";
+import { UserGroupIcon, CommandLineIcon } from "@heroicons/react/24/outline";
+import { Tooltip } from "react-tooltip";
 
 function App() {
   const [pg, setPg] = useState(null);
@@ -59,27 +61,35 @@ function App() {
           </h1>
 
           {/* Tab navigation */}
-          <div className="flex justify-center mb-6 items-center">
-            <button
-              className={`px-4 py-2 mr-2 text-sm font-medium border cursor-pointer rounded-xl ${
-                activeTab === "registration"
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "text-gray-600"
-              }`}
-              onClick={() => setActiveTab("registration")}
-            >
-              Registration
-            </button>
-            <button
-              className={`px-4 py-2 text-sm border rounded-xl font-medium cursor-pointer ${
-                activeTab === "sql"
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "text-gray-600"
-              }`}
-              onClick={() => setActiveTab("sql")}
-            >
-              SQL Query
-            </button>
+          <div className="flex justify-center mb-8">
+            <div className="bg-white  rounded-full shadow-sm p-1">
+              <div className="flex space-x-2">
+                <button
+                  data-tooltip-id="nav-tooltip"
+                  data-tooltip-content="Patient Management"
+                  className={`p-3 rounded-full transition-all duration-200 ${
+                    activeTab === "registration"
+                      ? "bg-blue-100  text-blue-600 dark:text-blue-400"
+                      : "text-gray-600 bg-tranparent  hover:bg-gray-100 "
+                  }`}
+                  onClick={() => setActiveTab("registration")}
+                >
+                  <UserGroupIcon className="w-6 h-6" />
+                </button>
+                <button
+                  data-tooltip-id="nav-tooltip"
+                  data-tooltip-content="SQL Console"
+                  className={`p-3 rounded-full transition-all duration-200 ${
+                    activeTab === "sql"
+                      ? "bg-blue-100  text-blue-600 dark:text-blue-400"
+                      : "text-gray-600 bg-tranparent  hover:bg-gray-100 "
+                  }`}
+                  onClick={() => setActiveTab("sql")}
+                >
+                  <CommandLineIcon className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Tab content */}
@@ -103,6 +113,7 @@ function App() {
           )}
         </div>
       </div>
+      <Tooltip id="nav-tooltip" />
     </PGliteProvider>
   );
 }
