@@ -168,7 +168,7 @@ function PatientTable() {
           </select>
         </div>
       </div>
-      <div className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="text-sm text-gray-500 ">
         Showing {filteredAndSortedPatients.length} of {patients.length} patients
       </div>
 

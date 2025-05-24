@@ -111,8 +111,8 @@ function App() {
           </div>
 
           {activeTab === "registration" && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="card">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+              <div className="card self-auto">
                 <PatientRegistration />
               </div>
               <div className="card">
