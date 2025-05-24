@@ -76,57 +76,59 @@ function PatientList() {
       </div>
 
       <div className="overflow-x-auto rounded-xl">
-        <table className="min-w-full">
-          <thead className="bg-slate-900 ">
-            <tr className="hover:cursor-pointer ">
-              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
-                MRN
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
-                DOB
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
-                Contact
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
-                Registration Date
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((patient) => (
-              <tr
-                key={patient.id}
-                className="hover:bg-gray-800 bg-slate-900 hover:cursor-pointer"
-              >
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300 ">
-                  {patient.medical_record_number}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap ">
-                  <div className="text-sm font-medium text-gray-100">
-                    {patient.first_name} {patient.last_name}
-                  </div>
-                  <div className="text-sm text-gray-300 ">
-                    {patient.city}, {patient.state}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100 ">
-                  {patient.date_of_birth}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap ">
-                  <div className="text-sm text-gray-200 ">{patient.phone}</div>
-                  <div className="text-sm text-gray-300 ">{patient.email}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100 ">
-                  {patient.registration_date}
-                </td>
+        <div className="max-h-[550px] overflow-y-auto">
+          <table className="min-w-full relative">
+            <thead className="bg-slate-900 sticky top-0 z-10">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  MRN
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  DOB
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  Contact
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                  Registration Date
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((patient) => (
+                <tr
+                  key={patient.id}
+                  className="hover:bg-gray-800 bg-slate-900 hover:cursor-pointer"
+                >
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                    {patient.medical_record_number}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm font-medium text-gray-100">
+                      {patient.first_name} {patient.last_name}
+                    </div>
+                    <div className="text-sm text-gray-300">
+                      {patient.city}, {patient.state}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100">
+                    {patient.date_of_birth}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-200">{patient.phone}</div>
+                    <div className="text-sm text-gray-300">{patient.email}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-100">
+                    {patient.registration_date}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
