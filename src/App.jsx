@@ -117,11 +117,11 @@ function App() {
           </div>
 
           {activeTab === "registration" && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-              <div className="card self-auto">
+            <div className="flex gap-8 items-start">
+              <div className="card-register w-full">
                 <PatientRegistration />
               </div>
-              <div className="card">
+              <div className="card-list w-full">
                 <PatientList />
               </div>
             </div>
