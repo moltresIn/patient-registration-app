@@ -80,19 +80,19 @@ function PatientList() {
           <table className="min-w-full relative">
             <thead className="bg-slate-900 sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black hover:cursor-pointer">
                   MRN
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black hover:cursor-pointer">
                   Name
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black hover:cursor-pointer">
                   DOB
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black hover:cursor-pointer">
                   Contact
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black">
+                <th className="px-6 py-3 text-left text-xs font-bold hover:bg-white text-white uppercase tracking-wider hover:text-black hover:cursor-pointer">
                   Registration Date
                 </th>
               </tr>

@@ -9,7 +9,7 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
         {steps.map((step) => (
           <div
             key={step.id}
-            className={`flex flex-col items-center relative z-10 ${
+            className={`flex flex-col items-center relative ${
               currentStep >= step.id ? "text-blue-700" : "text-gray-500"
             }`}
           >
