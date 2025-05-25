@@ -52,8 +52,8 @@ function App() {
 
   if (!pg) {
     return (
-      <div className="min-h-screen flex items-center justify-center ">
-        <div className="animate-pulse text-gray-600 ">Loading database...</div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-800">
+        <div className="animate-pulse text-gray-100 ">Loading database...</div>
       </div>
     );
   }
@@ -121,7 +121,7 @@ function App() {
               <div className="card-register w-full">
                 <PatientRegistration />
               </div>
-              <div className="card-list w-full">
+              <div className="card-list w-full py-10">
                 <PatientList />
               </div>
             </div>
