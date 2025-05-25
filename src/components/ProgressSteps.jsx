@@ -16,14 +16,18 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
             <button
               onClick={() => onStepClick(step.id)}
               disabled={!isStepComplete(step.id) && step.id > currentStep}
-              data-tooltip-id="step-tooltip"
+              data-tooltip-id={`step-tooltip-${step.id}`}
               data-tooltip-content={`${isStepComplete(step.id) ? "Edit " : ""}${
                 step.title
               } Information`}
               className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 ${
                 currentStep >= step.id
-                  ? "bg-white hover:bg-black hover:border"
-                  : "bg-gray-100"
+                  ? step.id === 6
+                    ? "bg-white hover:bg-black hover:border"
+                    : "bg-white hover:bg-black hover:border"
+                  : step.id === 6
+                    ? "bg-gray-700"
+                    : "bg-gray-500"
               } ${
                 !isStepComplete(step.id) && step.id > currentStep
                   ? "cursor-not-allowed opacity-50"
@@ -36,11 +40,12 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
                 <step.icon className="w-5 h-5 text-gray-700" />
               )}
             </button>
+            <Tooltip id={`step-tooltip-${step.id}`} />
             <div className="text-xs mt-2">{step.title}</div>
           </div>
         ))}
         <div
-          className="absolute top-5 left-0 h-0.5 bg-gray-200 w-full -z-10"
+          className="absolute top-5 left-0 h-0.5 w-full -z-10 transition-all duration-300"
           style={{
             background: `linear-gradient(to right, #3B82F6 ${
               ((currentStep - 1) / (steps.length - 1)) * 100
@@ -48,7 +53,6 @@ function ProgressSteps({ steps, currentStep, isStepComplete, onStepClick }) {
           }}
         />
       </div>
-      <Tooltip id="step-tooltip" />
     </div>
   );
 }

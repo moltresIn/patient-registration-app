@@ -57,9 +57,9 @@ function PatientList() {
 
   if (!rows || rows.length === 0) {
     return (
-      <div className="text-center py-12 bg-gray-50 rounded-lg">
-        <h3 className="text-lg font-medium text-gray-900">No patients yet</h3>
-        <p className="mt-2 text-sm text-gray-500">
+      <div className="text-center justify-center py-72 bg-slate-800 rounded-lg h-[600px]">
+        <h3 className="text-lg font-medium text-gray-200">No patients yet</h3>
+        <p className="mt-2 text-sm text-gray-400">
           Register a new patient to see them listed here.
         </p>
       </div>
@@ -76,7 +76,7 @@ function PatientList() {
       </div>
 
       <div className="overflow-x-auto rounded-xl">
-        <div className="max-h-[550px] overflow-y-auto">
+        <div className="max-h-[600px] overflow-y-auto">
           <table className="min-w-full relative">
             <thead className="bg-slate-900 sticky top-0 z-10">
               <tr>
